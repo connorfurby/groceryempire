@@ -4,13 +4,12 @@ import { MoneyContext } from '../MoneyContext';
 import Cookies from 'js-cookie';
 
 function MoneyComponent() {
-  const { money, setMoney, plots, setPlots, plotsUnused, setPlotsUnused, supermarketPlots, setSupermarketPlots } = useContext(MoneyContext);
-  const { money: moneyFromContext, setMoney: setMoneyInContext } = useContext(MoneyContext);
+  const { money, setMoney, plots, setPlots, plotsUnused, setPlotsUnused, supermarketPlots, setSupermarketPlots, maxCustomersPerMinute, setMaxCustomersPerMinute } = useContext(MoneyContext); // Add maxCustomersPerMinute and setMaxCustomersPerMinute here
   const [addedMoney, setAddedMoney] = useState(0);
   const [showAddedMoney, setShowAddedMoney] = useState(false);
 
   const scroungeMoney = () => {
-    const randomMoney = Math.random() * (100.15 - 0.02) + 0.02;
+    const randomMoney = Math.random() * (1.35 - 0.05) + 0.05;
     setMoney(prevMoney => prevMoney + randomMoney);
     setAddedMoney(randomMoney);
     setShowAddedMoney(true);
@@ -19,7 +18,6 @@ function MoneyComponent() {
   useEffect(() => {
     // Load money from cookie when component mounts
     const savedMoney = Cookies.get('money');
-    console.log('Saved money:', savedMoney);
     if (savedMoney && savedMoney !== '') {
       setMoney(parseFloat(savedMoney));
     }
@@ -27,10 +25,7 @@ function MoneyComponent() {
   
   useEffect(() => {
     // Save money to cookie whenever it changes
-    console.log('Setting money:', money);
     Cookies.set('money', money, { expires: 365 });
-    // Also update the money in context
-    setMoneyInContext(money);
   }, [money]);
 
   useEffect(() => {

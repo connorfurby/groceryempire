@@ -2,7 +2,10 @@ import React, { useContext } from 'react';
 import { MoneyContext } from '../MoneyContext';
 
 function SupermarketStats() {
-  const { money, setMoney, plots, setPlots, supermarketPlots, setSupermarketPlots, landPlotCost, setLandPlotCost, supermarketPlotCost, setSupermarketPlotCost } = useContext(MoneyContext);
+  const { money, setMoney, plots, setPlots, supermarketPlots, setSupermarketPlots, landPlotCost, setLandPlotCost, supermarketPlotCost, setSupermarketPlotCost, maxCustomersPerMinute, setMaxCustomersPerMinute } = useContext(MoneyContext);
+  
+  const [parkingLotPlots, setParkingLotPlots] = React.useState(0);
+  const [parkingLotCost, setParkingLotCost] = React.useState(10);
 
   const buyLand = () => {
     if (money >= landPlotCost) {
@@ -13,11 +16,21 @@ function SupermarketStats() {
   };
 
   const buildSupermarket = () => {
-    const unusedLandPlots = plots - supermarketPlots;
+    const unusedLandPlots = plots - supermarketPlots - parkingLotPlots;
     if (money >= supermarketPlotCost && unusedLandPlots > 0) {
       setMoney(money - supermarketPlotCost);
       setSupermarketPlots(supermarketPlots + 1);
       setSupermarketPlotCost(prevCost => prevCost * 1.5);
+    }
+  };
+
+  const buyParkingLot = () => {
+    const unusedLandPlots = plots - supermarketPlots - parkingLotPlots;
+    if (money >= parkingLotCost && unusedLandPlots > 0) {
+      setMoney(money - parkingLotCost);
+      setParkingLotPlots(parkingLotPlots + 1);
+      setParkingLotCost(prevCost => prevCost * 1.75);
+      setMaxCustomersPerMinute(prevMax => prevMax + 10 * Math.pow(1.75, parkingLotPlots));
     }
   };
 
@@ -29,13 +42,20 @@ function SupermarketStats() {
     <div>
       {plots >= 4 && (
         <>
-          <p style={style}>Unused Land Plots: {plots - supermarketPlots}</p>
+          <p style={style}>Unused Land Plots: {plots - supermarketPlots - parkingLotPlots}</p>
           <p style={style}>Supermarket Plots: {supermarketPlots}</p>
-          <button style={style} disabled={money < supermarketPlotCost || plots - supermarketPlots <= 0} onClick={buildSupermarket}>Build Supermarket Space: ${supermarketPlotCost.toFixed(2)}</button>
+          <button style={style} disabled={money < supermarketPlotCost || plots - supermarketPlots - parkingLotPlots <= 0} onClick={buildSupermarket}>Build Supermarket Space: ${supermarketPlotCost.toFixed(2)}</button>
+          {supermarketPlots > 0 && (
+            <>
+              <p style={style}>Parking Lot Plots: {parkingLotPlots}</p>
+              <button style={style} disabled={money < parkingLotCost || plots - supermarketPlots - parkingLotPlots <= 0} onClick={buyParkingLot}>Buy Parking Lot: ${parkingLotCost.toFixed(2)}</button>
+            </>
+          )}
         </>
       )}
       <p style={style}>Land Plots: {plots}</p>
       <button style={style} disabled={money < landPlotCost} onClick={buyLand}>Buy Land: ${landPlotCost.toFixed(2)}</button>
+      <p style={style}>Maximum customers per minute: {maxCustomersPerMinute}</p>
     </div>
   );
 }
