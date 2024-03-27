@@ -1,17 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styles from './components.module.css';
+import { MoneyContext } from '../MoneyContext';
+import Cookies from 'js-cookie';
 
 function MoneyComponent() {
-  const [money, setMoney] = useState(0);
+  const { money, setMoney, plots, setPlots, plotsUnused, setPlotsUnused, supermarketPlots, setSupermarketPlots } = useContext(MoneyContext);
+  const { money: moneyFromContext, setMoney: setMoneyInContext } = useContext(MoneyContext);
   const [addedMoney, setAddedMoney] = useState(0);
   const [showAddedMoney, setShowAddedMoney] = useState(false);
 
   const scroungeMoney = () => {
-    const randomMoney = Math.random() * (0.15 - 0.02) + 0.02;
+    const randomMoney = Math.random() * (100.15 - 0.02) + 0.02;
     setMoney(prevMoney => prevMoney + randomMoney);
     setAddedMoney(randomMoney);
     setShowAddedMoney(true);
   };
+
+  useEffect(() => {
+    // Load money from cookie when component mounts
+    const savedMoney = Cookies.get('money');
+    console.log('Saved money:', savedMoney);
+    if (savedMoney && savedMoney !== '') {
+      setMoney(parseFloat(savedMoney));
+    }
+  }, []);
+  
+  useEffect(() => {
+    // Save money to cookie whenever it changes
+    console.log('Setting money:', money);
+    Cookies.set('money', money, { expires: 365 });
+    // Also update the money in context
+    setMoneyInContext(money);
+  }, [money]);
 
   useEffect(() => {
     if (showAddedMoney) {
