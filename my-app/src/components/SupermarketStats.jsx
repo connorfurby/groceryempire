@@ -2,10 +2,14 @@ import React, { useContext } from 'react';
 import { MoneyContext } from '../MoneyContext';
 
 function SupermarketStats() {
-  const { money, setMoney, plots, setPlots, supermarketPlots, setSupermarketPlots, landPlotCost, setLandPlotCost, supermarketPlotCost, setSupermarketPlotCost, maxCustomersPerMinute, setMaxCustomersPerMinute } = useContext(MoneyContext);
-  
-  const [parkingLotPlots, setParkingLotPlots] = React.useState(0);
-  const [parkingLotCost, setParkingLotCost] = React.useState(10);
+  const { money, setMoney, 
+          plots, setPlots, 
+          supermarketPlots, setSupermarketPlots, 
+          parkingLotPlots, setParkingLotPlots, 
+          parkingLotCost, setParkingLotCost, 
+          landPlotCost, setLandPlotCost, 
+          supermarketPlotCost, setSupermarketPlotCost, 
+          maxCustomersPerMinute, setMaxCustomersPerMinute } = useContext(MoneyContext);
 
   const buyLand = () => {
     if (money >= landPlotCost) {
@@ -55,7 +59,11 @@ function SupermarketStats() {
       )}
       <p style={style}>Land Plots: {plots}</p>
       <button style={style} disabled={money < landPlotCost} onClick={buyLand}>Buy Land: ${landPlotCost.toFixed(2)}</button>
-      <p style={style}>Maximum customers per minute: {maxCustomersPerMinute}</p>
+      {supermarketPlots > 0 && (
+        <div style={{ marginTop: '30px' }}>
+          <p style={style}>Maximum customers per minute: {Math.round(maxCustomersPerMinute)}</p>
+        </div>
+      )}
     </div>
   );
 }

@@ -27,3 +27,34 @@
     padding: 0;
     margin: 0px 0px 0 5px;
 }
+
+.marginBottom {
+    margin-bottom: 5px;
+  }
+  
+.marginTop {
+    margin-top: 5px;
+  }
+
+.flexContainer {
+    display: flex;
+    align-items: center;
+  }
+
+
+.tableWithLines {
+    border-collapse: collapse;
+  }
+  
+.cellWithLines {
+    border: 1px solid black;
+    padding: 10px;
+}
+
+.researchContainer {
+    margin: 20px 0px 0px 10px;
+}
+
+.noMargin {
+    margin: 0;
+  }

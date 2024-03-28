@@ -3,11 +3,13 @@ import { MoneyContext } from '../MoneyContext';
 import { useState } from 'react';
 
 const AdvertisingComponent = () => {
-    const { money, setMoney, supermarketPlots, maxCustomersPerMinute } = useContext(MoneyContext);
-    const [customersPerMinute, setCustomersPerMinute] = useState(0);
-    const [averagePurchase, setAveragePurchase] = useState(1.50);
-    const [advertisingLevel, setAdvertisingLevel] = useState(0);
-    const [advertisingPrice, setAdvertisingPrice] = useState(25);
+    const { money, setMoney, 
+            supermarketPlots, setSupermarketPlots,
+            maxCustomersPerMinute, setMaxCustomersPerMinute,
+            advertisingLevel, setAdvertisingLevel,
+            averagePurchase, setAveragePurchase, 
+            customersPerMinute, setCustomersPerMinute, 
+            advertisingPrice, setAdvertisingPrice } = useContext(MoneyContext);
 
     const style = {
         margin: '1px 0px 1px 20px'
@@ -16,28 +18,30 @@ const AdvertisingComponent = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             if (supermarketPlots > 0) {
-                setMoney(money + (customersPerMinute / 600) * averagePurchase);
+                setMoney(prevMoney => prevMoney + (customersPerMinute / 600) * averagePurchase);
             }
         }, 100); // Update every tenth of a second
-
+    
         return () => clearInterval(interval); // Clean up on unmount
-    }, [money, customersPerMinute, averagePurchase, supermarketPlots]);
+    }, [customersPerMinute, averagePurchase, supermarketPlots]);
 
     const investInAdvertising = () => {
-        if (money < advertisingPrice) {
-            return;
-        }
-    
-        const newAdvertisingLevel = advertisingLevel + 1;
-        let newCustomersPerMinute = customersPerMinute + (3 + Math.floor(Math.random() * 4)) * supermarketPlots;
-        if (newCustomersPerMinute > maxCustomersPerMinute) {
-            newCustomersPerMinute = maxCustomersPerMinute;
-        }
-        setAdvertisingLevel(newAdvertisingLevel);
-        setCustomersPerMinute(newCustomersPerMinute);
-        setAdvertisingPrice(advertisingPrice * 2);
-    
-        setMoney(money - advertisingPrice);
+        setMoney(prevMoney => {
+            if (prevMoney < advertisingPrice) {
+                return prevMoney;
+            }
+        
+            const newAdvertisingLevel = advertisingLevel + 1;
+            let newCustomersPerMinute = customersPerMinute + (3 + Math.floor(Math.random() * 4)) * supermarketPlots * newAdvertisingLevel;
+            if (newCustomersPerMinute > maxCustomersPerMinute) {
+                newCustomersPerMinute = maxCustomersPerMinute;
+            }
+            setAdvertisingLevel(newAdvertisingLevel);
+            setCustomersPerMinute(newCustomersPerMinute);
+            setAdvertisingPrice(advertisingPrice * 2);
+        
+            return prevMoney - advertisingPrice;
+        });
     };
 
     if (supermarketPlots <= 0) {
@@ -47,7 +51,7 @@ const AdvertisingComponent = () => {
     return (
         <div>
             <p style={style}>Customers per minute: {customersPerMinute}</p>
-            <p style={style}>Average purchase: {averagePurchase}</p>
+            <p style={style}>Average purchase: ${averagePurchase.toFixed(2)}</p>
             <p style={style}>Advertising level: {advertisingLevel}</p>
             <button style={style} disabled={money < advertisingPrice} onClick={investInAdvertising}>
                 Invest in advertising (${advertisingPrice})

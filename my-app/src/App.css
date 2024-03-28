@@ -1,0 +1,11 @@
+.appContainer {
+    display: flex;
+  }
+  
+  .mainComponents {
+    flex: 0 0 20%;
+  }
+  
+  .researchComponent {
+    flex: 0 0 20%;
+  }
