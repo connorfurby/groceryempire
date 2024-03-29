@@ -15,6 +15,10 @@ function MoneyComponent() {
     setShowAddedMoney(true);
   };
 
+  const devMoney = () => {
+    setMoney(prevMoney => prevMoney * 2);
+  };
+
   useEffect(() => {
     if (showAddedMoney) {
       const timer = setTimeout(() => {
@@ -26,10 +30,11 @@ function MoneyComponent() {
 
   return (
     <div className={styles.moneycomponent}>
-      <h1 className={styles.moneycounter}>${money.toFixed(2)}</h1>
+      <h1 className={styles.moneycounter}>${Number(money).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</h1>
       <div className={styles.scroungeContainer}>
         <button className={styles.scrounge} onClick={scroungeMoney}>Scrounge the Couch For Change</button>
-        {showAddedMoney && <p className={styles.addedMoney}>+${addedMoney.toFixed(2)}</p>}
+        <button className={styles.scrounge} onClick={devMoney}>Dev Money</button>
+        {showAddedMoney && <p className={styles.addedMoney}>+${Number(addedMoney).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>}
       </div>
     </div>
   );

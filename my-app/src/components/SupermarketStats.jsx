@@ -48,20 +48,20 @@ function SupermarketStats() {
         <>
           <p style={style}>Unused Land Plots: {plots - supermarketPlots - parkingLotPlots}</p>
           <p style={style}>Supermarket Plots: {supermarketPlots}</p>
-          <button style={style} disabled={money < supermarketPlotCost || plots - supermarketPlots - parkingLotPlots <= 0} onClick={buildSupermarket}>Build Supermarket Space: ${supermarketPlotCost.toFixed(2)}</button>
+          <button style={style} disabled={money < supermarketPlotCost || plots - supermarketPlots - parkingLotPlots <= 0} onClick={buildSupermarket}>Build Supermarket Space: ${Number(supermarketPlotCost).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</button>
           {supermarketPlots > 0 && (
             <>
               <p style={style}>Parking Lot Plots: {parkingLotPlots}</p>
-              <button style={style} disabled={money < parkingLotCost || plots - supermarketPlots - parkingLotPlots <= 0} onClick={buyParkingLot}>Buy Parking Lot: ${parkingLotCost.toFixed(2)}</button>
+              <button style={style} disabled={money < parkingLotCost || plots - supermarketPlots - parkingLotPlots <= 0} onClick={buyParkingLot}>Buy Parking Lot: ${Number(parkingLotCost).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</button>
             </>
           )}
         </>
       )}
       <p style={style}>Land Plots: {plots}</p>
-      <button style={style} disabled={money < landPlotCost} onClick={buyLand}>Buy Land: ${landPlotCost.toFixed(2)}</button>
+      <button style={style} disabled={money < landPlotCost} onClick={buyLand}>Buy Land: ${Number(landPlotCost).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</button>
       {supermarketPlots > 0 && (
         <div style={{ marginTop: '30px' }}>
-          <p style={style}>Maximum customers per minute: {Math.round(maxCustomersPerMinute)}</p>
+          <p style={style}>Maximum customers per minute: {Number(Math.round(maxCustomersPerMinute)).toLocaleString('en-US')}</p>
         </div>
       )}
     </div>

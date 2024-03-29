@@ -28,6 +28,11 @@ function ResearchComponent() {
     setUpgrades
   } = useContext(MoneyContext);
 
+  const developerRefill = () => {
+    setResearchSpeed(researchSpeed + 1);
+    setMaxResearch(maxResearch + 1);
+    setFlasks(maxResearch * 1000);
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -116,6 +121,7 @@ function ResearchComponent() {
     <div className={styles.researchContainer}>
       <h3 className={styles.noMargin}>Research</h3>
       <p className={`${styles.noMargin} ${styles.marginBottom}`}>{flasks}/{maxResearch * 1000} Flasks</p>
+      <button onClick={developerRefill}>Developer Refill</button>
       <div className={`${styles.flexContainer} ${styles.marginTop}`}>
         <button onClick={upgradeResearchSpeed} disabled={Math.floor((plots - 5) / 5) <= upgradeCount}>Upgrade</button>
         <p className={styles.noMargin}>Research Speed: {researchSpeed}</p>

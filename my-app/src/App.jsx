@@ -5,6 +5,7 @@ import { MoneyContext } from './MoneyContext';
 import AdvertisingComponent from './components/AdvertisingComponent';
 import ResearchComponent from './components/ResearchComponent';
 import './App.css';
+import Bubbles from './components/Bubbles';
 
 function App() {
   const initialMoney = 0;
@@ -27,8 +28,10 @@ function App() {
   const initialUpgrades = [
     { id: 1, title: 'Billboards I', price: 1000, description: 'Double the effectiveness of advertising' },
     { id: 2, title: 'Quality Control I', price: 1500, description: 'Increse the quality of groceries, effectively doubling the average purchase' },
-    { id: 3, title: 'Land I', price: 2500, description: 'Three free land plots to use at your disposal' },
+    { id: 3, title: 'Land I', price: 2000, description: 'Three free land plots to use at your disposal' },
     { id: 4, title: 'Shipping I', price: 2500, description: 'Goods come in quicker from warehouses, doubling the maximum customers per minute' },
+    { id: 5, title: 'Laboratory I', price: 3000, description: 'Major Breakthrough in the Lab! Pick between a Research Upgrade.' },
+    { id: 6, title: 'TV Ads I', price: 3000, description: 'Advertisements now show on local news channels.' },
   ];
 
 
@@ -113,6 +116,7 @@ function App() {
         {advertisingLevel >= 3 && (
         <div className="researchComponent">
           <ResearchComponent />
+          <Bubbles />
         </div>
         )}
       </div>

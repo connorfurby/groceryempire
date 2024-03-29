@@ -50,11 +50,11 @@ const AdvertisingComponent = () => {
 
     return (
         <div>
-            <p style={style}>Customers per minute: {customersPerMinute}</p>
-            <p style={style}>Average purchase: ${averagePurchase.toFixed(2)}</p>
-            <p style={style}>Advertising level: {advertisingLevel}</p>
+            <p style={style}>Customers per minute: {Math.round(customersPerMinute).toLocaleString()}</p>
+            <p style={style}>Average purchase: ${Number(averagePurchase).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</p>
+            <p style={style}>Advertising level: {advertisingLevel.toLocaleString()}</p>
             <button style={style} disabled={money < advertisingPrice} onClick={investInAdvertising}>
-                Invest in advertising (${advertisingPrice})
+                Invest in advertising (${Number(advertisingPrice).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})})
             </button>
         </div>
     );
