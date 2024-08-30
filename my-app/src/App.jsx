@@ -32,6 +32,9 @@ function App() {
     { id: 4, title: 'Shipping I', price: 2500, description: 'Goods come in quicker from warehouses, doubling the maximum customers per minute' },
     { id: 5, title: 'Laboratory I', price: 3000, description: 'Major Breakthrough in the Lab! Pick between a Research Upgrade.' },
     { id: 6, title: 'TV Ads I', price: 3000, description: 'Advertisements now show on local news channels.' },
+    { id: 7, title: 'Bubble Mania I', price: 3500, description: 'Unlock bubbles.'},
+    { id: 8, title: 'Quality Control II', price: 4000, description: 'Higher quality foods and beverages, average purchase triples.'},
+
   ];
 
 
@@ -116,7 +119,9 @@ function App() {
         {advertisingLevel >= 3 && (
         <div className="researchComponent">
           <ResearchComponent />
-          <Bubbles />
+          <div className="bubblesContainer">
+            <Bubbles />
+          </div>
         </div>
         )}
       </div>
